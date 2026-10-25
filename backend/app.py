@@ -20,6 +20,7 @@ import mimetypes
 import base64
 import tempfile
 import shutil
+import threading
 from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
@@ -52,6 +53,22 @@ facial_analyzer = FacialEmotionAnalyzer()
 meet_processor = GoogleMeetProcessor()
 
 MEMORY_STORE_PATH = DATA_DIR / "memory_store.json"
+ANALYSIS_PROGRESS = {}
+ANALYSIS_PROGRESS_LOCK = threading.Lock()
+
+
+def set_analysis_progress(job_id, stage, message, complete=False, error=None):
+    if not job_id:
+        return
+    with ANALYSIS_PROGRESS_LOCK:
+        ANALYSIS_PROGRESS[job_id] = {
+            "job_id": job_id,
+            "stage": stage,
+            "message": message,
+            "complete": complete,
+            "error": error,
+            "updated_at": time.time(),
+        }
 
 DEFAULT_STORE = {
     "timeline": [
@@ -411,6 +428,19 @@ class BeaconAPIHandler(BaseHTTPRequestHandler):
             self._send_json(store.get("alerts", []))
             return
 
+        elif path == "/api/meet/analysis-progress":
+            job_id = parse_qs(parsed.query).get("job_id", [""])[0]
+            with ANALYSIS_PROGRESS_LOCK:
+                progress = ANALYSIS_PROGRESS.get(job_id, {
+                    "job_id": job_id,
+                    "stage": "waiting",
+                    "message": "Waiting for analysis to start.",
+                    "complete": False,
+                    "error": None,
+                })
+            self._send_json(progress)
+            return
+
         elif path.startswith("/api/meetings/") and path.endswith("/report.pdf"):
             meeting_id = path.split("/")[-2]
             meeting = next((item for item in load_store().get("meetings", []) if item.get("id") == meeting_id), None)
@@ -615,17 +645,22 @@ class BeaconAPIHandler(BaseHTTPRequestHandler):
             query = parse_qs(urlparse(self.path).query)
             meet_url = query.get("meet_url", [""])[0]
             title = query.get("title", ["Captured Google Meet"])[0]
+            job_id = query.get("job_id", [""])[0]
             if not body_bytes or not meet_url:
                 self._send_json({"error": "meet_url and captured media are required"}, 400)
                 return
             media_path = Path(tempfile.gettempdir()) / f"beacon-meeting-{int(time.time() * 1000)}.webm"
             try:
+                set_analysis_progress(job_id, "upload", "Captured meeting received. Preparing audio and video.")
                 media_path.write_bytes(body_bytes)
                 capture_dir = Path(tempfile.gettempdir()) / f"beacon-capture-{int(time.time() * 1000)}"
                 pipeline_result = run_pipeline(
                     video_path=str(media_path),
                     output_dir=str(capture_dir),
-                    run_compliance=True
+                    run_compliance=True,
+                    progress_callback=lambda stage, message: set_analysis_progress(
+                        job_id, stage, message
+                    )
                 )
                 turns = pipeline_result.get("turns", [])
                 emotion_observations = []
@@ -645,10 +680,14 @@ class BeaconAPIHandler(BaseHTTPRequestHandler):
                     capture.release()
                 except Exception as exc:
                     print(f"[NOTE] Video emotion sampling unavailable: {exc}")
+                set_analysis_progress(job_id, "summary", "Building the meeting summary, compliance findings, and report data.")
                 result = meet_processor.process_meet(meet_url, title, turns, emotion_observations)
                 result["pipeline"] = pipeline_result
-                self._send_json(persist_meeting_result(result, title), 201)
+                saved_result = persist_meeting_result(result, title)
+                set_analysis_progress(job_id, "complete", "Meeting analysis completed and saved to history.", complete=True)
+                self._send_json(saved_result, 201)
             except Exception as exc:
+                set_analysis_progress(job_id, "error", "Meeting analysis could not be completed.", complete=True, error=str(exc))
                 self._send_json({"error": f"Captured media could not be analyzed: {exc}"}, 422)
             finally:
                 media_path.unlink(missing_ok=True)

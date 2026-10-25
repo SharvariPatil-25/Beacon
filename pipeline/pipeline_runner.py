@@ -41,7 +41,8 @@ def run_pipeline(
     audio_path: Optional[str] = None,
     transcript_text: Optional[str] = None,
     output_dir: Optional[str] = None,
-    run_compliance: bool = True
+    run_compliance: bool = True,
+    progress_callback=None
 ) -> Dict[str, Any]:
     """
     Executes the BEACON processing pipeline.
@@ -54,9 +55,11 @@ def run_pipeline(
         raise ValueError("Provide transcript_text, audio_path, or video_path to run the meeting pipeline.")
 
     status = {"stages_completed": []}
+    report_progress = progress_callback or (lambda stage, message: None)
 
     # Step 1: Video to Audio
     if video_path and not audio_path:
+        report_progress("audio", "Stage 1 of 6: extracting meeting audio.")
         print("\n--- STAGE 1: AUDIO EXTRACTION ---")
         audio_path = extract_audio(video_path, str(out_dir))
         status["stages_completed"].append("audio_extraction")
@@ -70,6 +73,7 @@ def run_pipeline(
         status["stages_completed"].append("transcription")
         status["transcript_path"] = str(transcript_file)
     elif audio_path:
+        report_progress("transcription", "Stage 2 of 6: transcribing the meeting.")
         print("\n--- STAGE 2: TRANSCRIPTION ---")
         t_path = transcribe_audio(audio_path, str(out_dir))
         status["stages_completed"].append("transcription")
@@ -78,6 +82,7 @@ def run_pipeline(
     # Step 3: Diarization
     diarization_file = out_dir / "diarization.txt"
     if audio_path:
+        report_progress("diarization", "Stage 3 of 6: identifying speakers.")
         print("\n--- STAGE 3: SPEAKER DIARIZATION ---")
         d_path = diarize_audio(audio_path, str(out_dir))
         status["stages_completed"].append("diarization")
@@ -89,6 +94,7 @@ def run_pipeline(
         status["diarization_path"] = str(diarization_file)
 
     # Step 4: Speaker Transcript Merging
+    report_progress("speaker_transcript", "Stage 4 of 6: merging speakers with the transcript.")
     print("\n--- STAGE 4: SPEAKER TRANSCRIPT MERGE ---")
     speaker_transcript_path, turns = merge_transcript(
         str(transcript_file), str(diarization_file), str(out_dir / "speaker_transcript.txt")
@@ -98,6 +104,7 @@ def run_pipeline(
     status["turns"] = turns
 
     # Step 5: Fact Extraction
+    report_progress("facts", "Stage 5 of 6: extracting decisions, actions, and key facts.")
     print("\n--- STAGE 5: FACT EXTRACTION ---")
     facts = extract_facts(speaker_transcript_path, str(out_dir / "facts.json"))
     status["stages_completed"].append("fact_extraction")
@@ -105,6 +112,7 @@ def run_pipeline(
 
     # Step 6: Legal Compliance Analysis
     if run_compliance and facts:
+        report_progress("compliance", "Stage 6 of 6: checking legal compliance.")
         print("\n--- STAGE 6: LEGAL COMPLIANCE ANALYSIS ---")
         engine = ComplianceEngine()
         compliance_results = []

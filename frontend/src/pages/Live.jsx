@@ -146,6 +146,7 @@ export default function LiveMeeting() {
   const [thinking, setThinking] = useState(false)
   const [analysisElapsed, setAnalysisElapsed] = useState(0)
   const [analysisStage, setAnalysisStage] = useState('')
+  const [analysisMessage, setAnalysisMessage] = useState('')
   const analysisStartedAtRef = useRef(null)
   const [participants, setParticipants] = useState([])
   const [dialogueList, setDialogueList] = useState([])
@@ -469,7 +470,16 @@ export default function LiveMeeting() {
       )
       }
       const result = media?.size
-      ? (setAnalysisStage('Uploading audio and video for transcription'), await processMeetingMedia({ meet_url: meetUrl, title: meetTitle, media }))
+      ? (setAnalysisStage('Uploading audio and video for transcription'), await processMeetingMedia({
+        meet_url: meetUrl,
+        title: meetTitle,
+        media,
+        jobId: `meeting-${Date.now()}`,
+        onProgress: progress => {
+          setAnalysisStage(progress.stage)
+          setAnalysisMessage(progress.message)
+        }
+      }))
       : (setAnalysisStage('Analyzing the captured transcript'), await processGoogleMeet({ meet_url: meetUrl, title: meetTitle, transcript: dialogueList }))
       sessionStorage.setItem('beacon_last_meet_result', JSON.stringify(result))
       go('/app/compliance')
@@ -478,6 +488,7 @@ export default function LiveMeeting() {
     } finally {
       setThinking(false)
       setAnalysisStage('')
+      setAnalysisMessage('')
     }
   }
 
@@ -531,7 +542,7 @@ export default function LiveMeeting() {
           <div className="row between wrap g8">
             <div>
               <p className="eyebrow">Meeting analysis running</p>
-              <p className="small mt4">{analysisStage || 'Processing the meeting...'}</p>
+              <p className="small mt4">{analysisMessage || analysisStage || 'Processing the meeting...'}</p>
               <p className="xs muted mt4">The server is transcribing, separating speakers, analyzing emotions, and checking compliance. Keep this tab open until it finishes.</p>
             </div>
             <span className="badge b-neutral">Elapsed {fmt(analysisElapsed)}</span>

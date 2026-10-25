@@ -1,5 +1,624 @@
 {
-  "timeline": [],
-  "meetings": [],
+  "timeline": [
+    {
+      "id": "m1-timeline",
+      "meeting_id": "m1",
+      "date": "October 25, 2026",
+      "title": "Quarterly Operations Review",
+      "decision": "should be reported as salary",
+      "conflict": false,
+      "detail": "Catherine Smith-Byron. Hi. Well, that's good news. I hadn't heard anything about that change. Tim, do you"
+    }
+  ],
+  "meetings": [
+    {
+      "id": "m1",
+      "title": "Google Meet: Quarterly Operations Review (gmt-live-sync)",
+      "date": "Oct 25, 2026",
+      "participants": 1,
+      "duration": "115 seconds",
+      "status": "clear",
+      "issues": 0,
+      "decisions": [
+        "should be reported as salary",
+        "that vacation should be infringed.",
+        "and I agreed then that it should be in salary",
+        "I think none of us really agreed with it from the beginning."
+      ],
+      "summary": {
+        "purpose": "Conversation captured from the meeting.",
+        "executive": "Catherine Smith-Byron. Hi. Well, that's good news. I hadn't heard anything about that change. Tim, do you",
+        "decisions": [
+          "should be reported as salary",
+          "that vacation should be infringed.",
+          "and I agreed then that it should be in salary",
+          "I think none of us really agreed with it from the beginning."
+        ],
+        "action_items": [],
+        "behavioral_observations": "Meeting was predominantly NEUTRAL based on 45 captured utterances."
+      },
+      "compliance_evaluations": [],
+      "sentiment_summary": {
+        "dominant_emotion": "neutral",
+        "distribution": {
+          "happy": 0.0,
+          "serious": 0.0,
+          "agitated": 0.0,
+          "disappointed": 0.0,
+          "neutral": 100.0
+        },
+        "tension_moments": 0,
+        "alerts": [],
+        "participant_profiles": {
+          "SPEAKER_01": {
+            "dominant_emotion": "neutral",
+            "color": "#546e7a",
+            "counts": {
+              "happy": 0,
+              "serious": 0,
+              "agitated": 0,
+              "disappointed": 0,
+              "neutral": 45
+            }
+          }
+        }
+      },
+      "transcript": [
+        {
+          "start": 0.0,
+          "end": 4.57,
+          "speaker": "SPEAKER_01",
+          "text": "that a standard employee vacation time",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 4.57,
+          "end": 6.77,
+          "speaker": "SPEAKER_01",
+          "text": "should be reported as salary",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 6.77,
+          "end": 11.8,
+          "speaker": "SPEAKER_01",
+          "text": "and that examples of extended employee leave include",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 12.92,
+          "end": 15.8,
+          "speaker": "SPEAKER_01",
+          "text": "like maternity, paternity leave, medical leave",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 15.8,
+          "end": 18.4,
+          "speaker": "SPEAKER_01",
+          "text": "and other situations beyond the normal",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 18.4,
+          "end": 20.4,
+          "speaker": "SPEAKER_01",
+          "text": "two to three weeks of vacation time",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 20.4,
+          "end": 23.08,
+          "speaker": "SPEAKER_01",
+          "text": "provided by many organizations.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 23.08,
+          "end": 25.2,
+          "speaker": "SPEAKER_01",
+          "text": "So it's outside of vacation time?",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 25.2,
+          "end": 26.2,
+          "speaker": "SPEAKER_01",
+          "text": "Right, so.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 26.2,
+          "end": 27.04,
+          "speaker": "SPEAKER_01",
+          "text": "Okay.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 27.04,
+          "end": 30.12,
+          "speaker": "SPEAKER_01",
+          "text": "So my understanding from that is that",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 30.12,
+          "end": 34.52,
+          "speaker": "SPEAKER_01",
+          "text": "really what we call vacation leave is part of salary.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 34.52,
+          "end": 36.68,
+          "speaker": "SPEAKER_01",
+          "text": "It's part of the salary cost.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 36.68,
+          "end": 38.52,
+          "speaker": "SPEAKER_01",
+          "text": "And this other thing doesn't really,",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 38.52,
+          "end": 40.52,
+          "speaker": "SPEAKER_01",
+          "text": "to me, sound like vacation at all.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 40.52,
+          "end": 44.04,
+          "speaker": "SPEAKER_01",
+          "text": "It's extraordinary circumstances",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 44.04,
+          "end": 45.76,
+          "speaker": "SPEAKER_01",
+          "text": "where somebody has to take leave",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 45.76,
+          "end": 48.16,
+          "speaker": "SPEAKER_01",
+          "text": "that was often covered by FMLA.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 48.16,
+          "end": 53.57,
+          "speaker": "SPEAKER_01",
+          "text": "So that made sense to me that that's not vacation.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 53.57,
+          "end": 58.05,
+          "speaker": "SPEAKER_01",
+          "text": "But I thought I remembered a conversation where at one point,",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 58.05,
+          "end": 61.81,
+          "speaker": "SPEAKER_01",
+          "text": "And I even remember, I recall CHRC folks saying at one point",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 61.81,
+          "end": 64.53,
+          "speaker": "SPEAKER_01",
+          "text": "that vacation should be infringed.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 64.53,
+          "end": 68.17,
+          "speaker": "SPEAKER_01",
+          "text": "But now I'm hearing that what most of us would call vacation",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 68.17,
+          "end": 70.61,
+          "speaker": "SPEAKER_01",
+          "text": "is not infringed, it's in salaries.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 70.61,
+          "end": 73.13,
+          "speaker": "SPEAKER_01",
+          "text": "Yeah, we had that same conversation on one of these calls",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 73.13,
+          "end": 76.37,
+          "speaker": "SPEAKER_01",
+          "text": "and I agreed then that it should be in salary",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 76.37,
+          "end": 78.1,
+          "speaker": "SPEAKER_01",
+          "text": "and not infringed.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 78.1,
+          "end": 79.94,
+          "speaker": "SPEAKER_01",
+          "text": "Right, yeah.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 79.94,
+          "end": 83.54,
+          "speaker": "SPEAKER_01",
+          "text": "But I think there was at one point an understanding",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 83.54,
+          "end": 86.54,
+          "speaker": "SPEAKER_01",
+          "text": "that maybe the CHRC did want to infringe,",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 86.54,
+          "end": 88.86,
+          "speaker": "SPEAKER_01",
+          "text": "but now they're saying they don't want it in fringe.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 88.86,
+          "end": 92.42,
+          "speaker": "SPEAKER_01",
+          "text": "So I just wanted to share that piece of information I got",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 92.42,
+          "end": 95.7,
+          "speaker": "SPEAKER_01",
+          "text": "and make sure that that's what you now are hearing as well.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 95.7,
+          "end": 97.5,
+          "speaker": "SPEAKER_01",
+          "text": "I think none of us really agreed with it from the beginning.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 97.5,
+          "end": 100.66,
+          "speaker": "SPEAKER_01",
+          "text": "So now we're on the same page and put it in salary.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 100.66,
+          "end": 101.5,
+          "speaker": "SPEAKER_01",
+          "text": "Yeah, yeah.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 101.5,
+          "end": 102.34,
+          "speaker": "SPEAKER_01",
+          "text": "Okay.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 102.34,
+          "end": 104.06,
+          "speaker": "SPEAKER_01",
+          "text": "Okay.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 104.06,
+          "end": 105.21,
+          "speaker": "SPEAKER_01",
+          "text": "Great.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 105.21,
+          "end": 106.33,
+          "speaker": "SPEAKER_01",
+          "text": "Thank you, Kathy.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 106.33,
+          "end": 108.85,
+          "speaker": "SPEAKER_01",
+          "text": "Catherine Smith-Byron.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 108.85,
+          "end": 109.69,
+          "speaker": "SPEAKER_01",
+          "text": "Hi.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 109.69,
+          "end": 110.65,
+          "speaker": "SPEAKER_01",
+          "text": "Well, that's good news.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 110.65,
+          "end": 112.93,
+          "speaker": "SPEAKER_01",
+          "text": "I hadn't heard anything about that change.",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        },
+        {
+          "start": 113.97,
+          "end": 115.25,
+          "speaker": "SPEAKER_01",
+          "text": "Tim, do you",
+          "emotion": "neutral",
+          "confidence": 0.0,
+          "color": "#546e7a",
+          "description": "Balanced resting expression, baseline engagement.",
+          "scores": {},
+          "behavioral_alert": null
+        }
+      ],
+      "participants_detail": [
+        {
+          "name": "SPEAKER_01",
+          "role": "Captured speaker",
+          "initials": "S",
+          "emotion": "neutral"
+        }
+      ],
+      "google_meet": {
+        "code": "gmt-live-sync",
+        "url": "https://meet.google.com/gmt-live-sync"
+      },
+      "source": "live_capture"
+    }
+  ],
   "alerts": []
 }

@@ -135,16 +135,26 @@ export async function processGoogleMeet({ meet_url = 'https://meet.google.com/qo
   return data
 }
 
-export async function processMeetingMedia({ meet_url, title, media }) {
-  const query = new URLSearchParams({ meet_url, title })
-  const res = await fetch(`${API_BASE}/api/meet/process-media?${query}`, {
-    method: 'POST',
-    headers: { 'Content-Type': media.type || 'video/webm' },
-    body: media
-  })
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.error || 'Captured media analysis failed.')
-  return data
+export async function processMeetingMedia({ meet_url, title, media, jobId, onProgress }) {
+  const query = new URLSearchParams({ meet_url, title, job_id: jobId })
+  const progressTimer = onProgress && setInterval(async () => {
+    try {
+      const progress = await fetch(`${API_BASE}/api/meet/analysis-progress?job_id=${encodeURIComponent(jobId)}`).then(response => response.json())
+      onProgress(progress)
+    } catch {}
+  }, 1000)
+  try {
+    const res = await fetch(`${API_BASE}/api/meet/process-media?${query}`, {
+      method: 'POST',
+      headers: { 'Content-Type': media.type || 'video/webm' },
+      body: media
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Captured media analysis failed.')
+    return data
+  } finally {
+    if (progressTimer) clearInterval(progressTimer)
+  }
 }
 
 export async function transcribeMeetingChunk({ meet_url, title, media, sequence }) {
