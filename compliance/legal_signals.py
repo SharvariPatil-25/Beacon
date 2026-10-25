@@ -75,13 +75,11 @@ class LegalSignals:
                 self.nlp = spacy.load(model)
             except Exception:
                 try:
-                    import spacy.cli
-                    spacy.cli.download(model)
-                    self.nlp = spacy.load(model)
-                except Exception:
                     self.nlp = spacy.blank("en")
                     if "sentencizer" not in self.nlp.pipe_names:
                         self.nlp.add_pipe("sentencizer")
+                except Exception:
+                    self.nlp = None
 
     def extract(self, text: str, doc=None) -> dict:
         """Works on a meeting sentence or a contract clause."""
