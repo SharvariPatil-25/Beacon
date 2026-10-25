@@ -92,7 +92,7 @@ export default function Compliance() {
           <div className="card pad" style={{ borderLeft: '4px solid var(--gold-500)' }}>
             <div className="row between wrap g8">
               <h3 className="serif" style={{ fontSize: 18 }}>Google Meet Facial Emotion & Sentiment Analysis</h3>
-              <span className="badge b-clear">{result?.participants?.length || 0} Participants Tracked</span>
+              <span className="badge b-clear">{asArray(result?.participants_detail).length || (Number.isFinite(result?.participants) ? result.participants : asArray(result?.participants).length)} Participants Tracked</span>
             </div>
             <p className="small muted mt4">
               Real-time facial expression tracking across the meeting session.

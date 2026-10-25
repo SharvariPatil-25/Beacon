@@ -51,7 +51,6 @@ compliance_engine = ComplianceEngine()
 facial_analyzer = FacialEmotionAnalyzer()
 meet_processor = GoogleMeetProcessor()
 
-# Seed default mock data store in data/memory_store.json if not present
 MEMORY_STORE_PATH = DATA_DIR / "memory_store.json"
 
 DEFAULT_STORE = {
@@ -80,6 +79,7 @@ DEFAULT_STORE = {
             "conflict": False,
             "detail": "John will remain employed until December 31."
         }
+
     ],
     "meetings": [
         {
@@ -149,6 +149,10 @@ DEFAULT_STORE = {
         }
     ]
 }
+
+# A fresh installation must not invent meeting history. New records are added
+# only after a real capture completes successfully.
+DEFAULT_STORE = {"timeline": [], "meetings": [], "alerts": []}
 
 def load_store():
     if MEMORY_STORE_PATH.exists():
@@ -284,7 +288,6 @@ def persist_meeting_result(result, title):
         "date": time.strftime("%b %d, %Y"),
         "participants": len(result.get("participants", [])),
         "duration": result.get("duration", "Live session"),
-        "summary": result["summary"]["executive"],
         "status": "review" if result["sentiment_summary"]["tension_moments"] > 0 else "clear",
         "issues": result["sentiment_summary"]["tension_moments"] + len(result.get("compliance_evaluations", [])),
         "decisions": result["summary"]["decisions"],

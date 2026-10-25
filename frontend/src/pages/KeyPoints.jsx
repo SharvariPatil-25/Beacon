@@ -58,7 +58,7 @@ export default function KeyPoints() {
           </select>
         </div>
         <div><p className="xs muted">Date</p><p style={{ fontWeight: 600 }}>{result?.timestamp || '—'}</p></div>
-        <div><p className="xs muted">Participants</p><p style={{ fontWeight: 600 }}>{result?.participants?.length || 0}</p></div>
+        <div><p className="xs muted">Participants</p><p style={{ fontWeight: 600 }}>{asArray(result?.participants_detail).length || (Number.isFinite(result?.participants) ? result.participants : asArray(result?.participants).length)}</p></div>
         <Badge tone="review">{result ? k.decisions.length + k.actions.length : 0} captured items</Badge>
       </div>
 
