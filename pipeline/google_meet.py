@@ -96,6 +96,21 @@ class GoogleMeetProcessor:
             {"task": t["text"], "owner": t.get("speaker", "Unassigned"), "due": "Review required"}
             for t in turns if any(word in t["text"].lower() for word in ["will ", "please ", "schedule", "review"])
         ][:8]
+        summary_points = []
+        for text in decisions + [item["task"] for item in action_items]:
+            cleaned = " ".join(text.split())
+            if cleaned and cleaned not in summary_points:
+                summary_points.append(cleaned)
+        if summary_points:
+            executive_summary = "Key discussion points: " + " ".join(summary_points[:4])
+        else:
+            overview = [
+                " ".join(turn.get("text", "").split())
+                for turn in turns
+                if turn.get("text", "").strip()
+            ]
+            executive_summary = " ".join(overview[:3]) or "No spoken content was captured."
+        executive_summary = executive_summary[:1200].rstrip()
         participant_names = []
         for turn in turns:
             name = turn.get("speaker", "Unknown speaker")
@@ -123,7 +138,7 @@ class GoogleMeetProcessor:
             "compliance_evaluations": compliance_evaluations,
             "summary": {
                 "purpose": "Conversation captured from the meeting.",
-                "executive": " ".join(t["text"] for t in turns[-5:]),
+                "executive": executive_summary,
                 "decisions": decisions,
                 "action_items": action_items,
                 "behavioral_observations": f"Meeting was predominantly {sentiment_summary['dominant_emotion'].upper()} based on {len(emotion_timeline)} captured utterances."
