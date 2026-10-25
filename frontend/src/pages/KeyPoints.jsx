@@ -5,6 +5,8 @@ import { Link } from '../router.jsx'
 import { useInsight } from '../insight.jsx'
 import { fetchMeetings } from '../api.js'
 
+const asArray = (value) => Array.isArray(value) ? value : []
+
 function Group({ icon, title, count, children }) {
   return (
     <section className="mt24">
@@ -27,13 +29,14 @@ export default function KeyPoints() {
       setResult(found || meetings[0] || JSON.parse(sessionStorage.getItem('beacon_last_meet_result') || 'null'))
     }).catch(() => setResult(null))
   }, [])
+  const summary = result?.summary && typeof result.summary === 'object' ? result.summary : {}
   const k = {
-    decisions: (result?.summary?.decisions || []).map((quote, i) => ({ id: `decision-${i}`, status: 'Captured', time: '', title: 'Captured decision', quote })),
-    actions: (result?.summary?.action_items || []).map((item, i) => ({ id: `action-${i}`, title: item.task, owner: item.owner, due: item.due })),
+    decisions: asArray(summary.decisions).map((quote, i) => ({ id: `decision-${i}`, status: 'Captured', time: '', title: 'Captured decision', quote: typeof quote === 'string' ? quote : quote?.text || quote?.decision || 'Captured decision' })),
+    actions: asArray(summary.action_items).map((item, i) => ({ id: `action-${i}`, title: typeof item === 'string' ? item : item?.task || item?.title || 'Captured action', owner: item?.owner || 'Participant', due: item?.due || item?.deadline || 'Not specified' })),
     commitments: [],
-    people: (result?.participants || []).map(p => p.name),
+    people: asArray(result?.participants).map(p => typeof p === 'string' ? p : p?.name || 'Participant'),
     dates: [],
-    statements: (result?.transcript || []).map((item, i) => ({ id: `statement-${i}`, time: `${item.start || 0}s`, category: 'Captured', text: item.text }))
+    statements: asArray(result?.transcript).map((item, i) => ({ id: `statement-${i}`, time: `${item?.start || 0}s`, category: 'Captured', text: item?.text || '' })).filter(item => item.text)
   }
   return (
     <>

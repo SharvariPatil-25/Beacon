@@ -144,6 +144,9 @@ export default function LiveMeeting() {
   const { open } = useInsight()
   const [secs, setSecs] = useState(0)
   const [thinking, setThinking] = useState(false)
+  const [analysisElapsed, setAnalysisElapsed] = useState(0)
+  const [analysisStage, setAnalysisStage] = useState('')
+  const analysisStartedAtRef = useRef(null)
   const [participants, setParticipants] = useState([])
   const [dialogueList, setDialogueList] = useState([])
   const [customUtterance, setCustomUtterance] = useState('')
@@ -441,6 +444,9 @@ export default function LiveMeeting() {
   }
 
   const handleEndAndAnalyze = async () => {
+    analysisStartedAtRef.current = Date.now()
+    setAnalysisElapsed(0)
+    setAnalysisStage('Preparing the captured meeting')
     setThinking(true)
     try {
       speechRef.current?.stop()
@@ -463,16 +469,33 @@ export default function LiveMeeting() {
       )
       }
       const result = media?.size
-      ? await processMeetingMedia({ meet_url: meetUrl, title: meetTitle, media })
-      : await processGoogleMeet({ meet_url: meetUrl, title: meetTitle, transcript: dialogueList })
+      ? (setAnalysisStage('Uploading audio and video for transcription'), await processMeetingMedia({ meet_url: meetUrl, title: meetTitle, media }))
+      : (setAnalysisStage('Analyzing the captured transcript'), await processGoogleMeet({ meet_url: meetUrl, title: meetTitle, transcript: dialogueList }))
       sessionStorage.setItem('beacon_last_meet_result', JSON.stringify(result))
       go('/app/compliance')
     } catch (error) {
       alert(error.message)
     } finally {
       setThinking(false)
+      setAnalysisStage('')
     }
   }
+
+  useEffect(() => {
+    if (!thinking) return undefined
+    const timer = setInterval(() => {
+      setAnalysisElapsed(Math.floor((Date.now() - analysisStartedAtRef.current) / 1000))
+    }, 1000)
+    const warnBeforeLeaving = (event) => {
+      event.preventDefault()
+      event.returnValue = 'Meeting analysis is still running. Leave this page?'
+    }
+    window.addEventListener('beforeunload', warnBeforeLeaving)
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('beforeunload', warnBeforeLeaving)
+    }
+  }, [thinking])
 
   return (
     <>
@@ -496,12 +519,28 @@ export default function LiveMeeting() {
             <Icon name="video" size={14} /> {cameraActive ? 'Stop Capture' : sourceMode === 'camera' ? 'Enable My Camera' : 'Share Meeting Screen'}
           </button>
           <button className="btn btn-primary" onClick={handleEndAndAnalyze} disabled={thinking}>
-            {thinking ? 'Analyzing Meeting...' : <><Icon name="stop" size={14} /> End & Analyze</>}
+            {thinking ? 'Analysis in progress...' : <><Icon name="stop" size={14} /> End & Analyze</>}
           </button>
         </div>
       </div>
 
       <div className="card pad" style={{ marginBottom: 16 }}><FlowStrip active={4} /></div>
+
+      {thinking && (
+        <div className="card pad mb16" role="status" aria-live="polite" style={{ borderLeft: '4px solid var(--gold-500)', background: 'var(--ivory-100)' }}>
+          <div className="row between wrap g8">
+            <div>
+              <p className="eyebrow">Meeting analysis running</p>
+              <p className="small mt4">{analysisStage || 'Processing the meeting...'}</p>
+              <p className="xs muted mt4">The server is transcribing, separating speakers, analyzing emotions, and checking compliance. Keep this tab open until it finishes.</p>
+            </div>
+            <span className="badge b-neutral">Elapsed {fmt(analysisElapsed)}</span>
+          </div>
+          <div className="mt12" style={{ height: 6, overflow: 'hidden', borderRadius: 999, background: 'var(--ivory-300)' }}>
+            <span style={{ display: 'block', width: '35%', height: '100%', borderRadius: 999, background: 'var(--gold-500)', animation: 'pulse 1.4s ease-in-out infinite alternate' }} />
+          </div>
+        </div>
+      )}
 
       {behavioralAlert && (
         <div className="card pad mb16" style={{ background: '#fdf2f0', borderLeft: '4px solid var(--red)', padding: '12px 16px' }}>

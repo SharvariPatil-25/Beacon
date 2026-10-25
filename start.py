@@ -66,7 +66,6 @@ def ensure_runtime():
         run_command([npm, "run", "build"], cwd=frontend)
         bundle.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(frontend_bundle, bundle)
-
 def open_browser():
     time.sleep(1.2)
     url = f"http://localhost:{SERVER_PORT}"

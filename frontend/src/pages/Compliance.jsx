@@ -5,6 +5,8 @@ import { ComplianceAlert, ConflictCard } from '../components.jsx'
 import { Link } from '../router.jsx'
 import { checkMemoryConflict, fetchMeetings } from '../api.js'
 
+const asArray = (value) => Array.isArray(value) ? value : []
+
 export default function Compliance() {
   const [result, setResult] = React.useState(null)
   const [meetings, setMeetings] = React.useState([])
@@ -18,10 +20,10 @@ export default function Compliance() {
       else setResult(meetings[0] || (latest ? JSON.parse(latest) : null))
     }).catch(() => latest && setResult(JSON.parse(latest)))
   }, [])
-  const evaluations = result?.compliance_evaluations || []
+  const evaluations = asArray(result?.compliance_evaluations)
   const [conflict, setConflict] = React.useState(null)
   React.useEffect(() => {
-    const text = result?.transcript?.map(item => item.text).join(' ') || ''
+    const text = asArray(result?.transcript).map(item => item?.text || '').join(' ')
     if (text) checkMemoryConflict(text).then(setConflict).catch(() => setConflict(null))
   }, [result])
   const current = evaluations.length
@@ -97,13 +99,13 @@ export default function Compliance() {
             </p>
 
             <div className="sentiment-bar-track mt12" style={{ height: 12 }}>
-              {Object.entries(result?.sentiment_summary?.distribution || {}).map(([emotion, value]) => (
+              {Object.entries(result?.sentiment_summary?.distribution && typeof result.sentiment_summary.distribution === 'object' ? result.sentiment_summary.distribution : {}).map(([emotion, value]) => (
                 <div key={emotion} className="sentiment-seg" style={{ width: `${value}%`, background: emotion === 'agitated' ? '#d32f2f' : emotion === 'happy' ? '#2e7d32' : emotion === 'disappointed' ? '#e65100' : '#1565c0' }} title={`${emotion}: ${value}%`} />
               ))}
             </div>
 
             <div className="row between xs muted mt8 wrap g8">
-              {Object.entries(result?.sentiment_summary?.distribution || {}).map(([emotion, value]) => <span key={emotion}>{emotion}: {value}%</span>)}
+              {Object.entries(result?.sentiment_summary?.distribution && typeof result.sentiment_summary.distribution === 'object' ? result.sentiment_summary.distribution : {}).map(([emotion, value]) => <span key={emotion}>{emotion}: {value}%</span>)}
             </div>
 
             <div className="mt12 card pad" style={{ background: 'var(--ivory-100)', padding: 12 }}>
