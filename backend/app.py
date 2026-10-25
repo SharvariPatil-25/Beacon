@@ -731,6 +731,8 @@ class BeaconAPIHandler(BaseHTTPRequestHandler):
             # If requesting a client-side route (/app/*), fallback to index.html
             if not target_file.exists() or target_file.is_dir():
                 target_file = FRONTEND_DIST_DIR / "index.html"
+            if not target_file.exists() and path in ("", "/index.html"):
+                target_file = STANDALONE_HTML_PATH
 
         if target_file.exists() and target_file.is_file():
             mime, _ = mimetypes.guess_type(str(target_file))

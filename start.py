@@ -45,8 +45,9 @@ def ensure_runtime():
 
     frontend = ROOT / "frontend"
     bundle = ROOT / "dist" / "beacon-standalone.html"
+    frontend_bundle = frontend / "dist" / "index.html"
     source_files = list((frontend / "src").rglob("*")) + [frontend / "build.mjs"]
-    build_required = not bundle.exists() or any(
+    build_required = not bundle.exists() or not frontend_bundle.exists() or any(
         path.is_file() and path.stat().st_mtime > bundle.stat().st_mtime
         for path in source_files
     )
@@ -64,7 +65,7 @@ def ensure_runtime():
             run_command([npm, "ci"], cwd=frontend)
         run_command([npm, "run", "build"], cwd=frontend)
         bundle.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(frontend / "dist" / "index.html", bundle)
+        shutil.copy2(frontend_bundle, bundle)
 
 def open_browser():
     time.sleep(1.2)
