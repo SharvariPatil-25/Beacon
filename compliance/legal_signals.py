@@ -102,8 +102,12 @@ class LegalSignals:
                       for t in doc if t.tag_ == "MD"]
             negations = [t.text for t in doc if t.dep_ == "neg" or t.lower_ in NEG_WORDS]
             if doc.has_annotation("DEP"):
-                actors = [c.text for c in doc.noun_chunks if c.root.dep_ in ("nsubj", "nsubjpass")]
-                objects = [c.text for c in doc.noun_chunks if c.root.dep_ in ("dobj", "pobj", "attr")]
+                try:
+                    chunks = list(doc.noun_chunks)
+                except ValueError:
+                    chunks = []
+                actors = [c.text for c in chunks if c.root.dep_ in ("nsubj", "nsubjpass")]
+                objects = [c.text for c in chunks if c.root.dep_ in ("dobj", "pobj", "attr")]
             for t in doc:
                 if t.pos_ in ("VERB", "AUX") and t.dep_ in ("ROOT", "conj"):
                     aux = sorted([a for a in t.children if a.dep_ in ("aux", "auxpass", "neg")],
