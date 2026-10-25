@@ -35,12 +35,13 @@ def run_command(command, cwd=ROOT):
 
 
 def ensure_runtime():
-    """Install missing project dependencies and build the bundled frontend."""
-    marker = ROOT / ".beacon-setup-complete"
+    """Install missing dependencies once, then build only when sources changed."""
+    python_marker = ROOT / ".beacon-python-deps-installed"
     python_executable = Path(sys.executable)
     requirements = ROOT / "requirements.txt"
-    if not marker.exists():
+    if not python_marker.exists():
         run_command([str(python_executable), "-m", "pip", "install", "-r", str(requirements)])
+        python_marker.touch()
 
     frontend = ROOT / "frontend"
     bundle = ROOT / "dist" / "beacon-standalone.html"
@@ -54,14 +55,16 @@ def ensure_runtime():
         node_modules = frontend / "node_modules"
         if not npm:
             raise RuntimeError("Node.js and npm are required to build the frontend. Install Node.js 18+ and retry.")
-        if not node_modules.exists():
+        esbuild_entry = node_modules / "esbuild" / "lib" / "main.js"
+        react_entry = node_modules / "react" / "package.json"
+        if not esbuild_entry.is_file() or not react_entry.is_file():
+            if node_modules.exists():
+                print(">> Incomplete frontend dependencies detected; recreating frontend/node_modules")
+                shutil.rmtree(node_modules)
             run_command([npm, "ci"], cwd=frontend)
         run_command([npm, "run", "build"], cwd=frontend)
         bundle.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(frontend / "dist" / "index.html", bundle)
-
-    marker.touch()
-
 
 def open_browser():
     time.sleep(1.2)

@@ -108,6 +108,8 @@ python start.py
 
 The launcher automatically installs the Python requirements, installs the frontend dependencies, builds the frontend bundle, starts the backend, and opens the application.
 
+Run `python start.py` the first time after cloning and whenever the project is updated. It installs dependencies only once (using an ignored local marker); on later runs it starts the application directly unless the frontend source changed. To start the application after setup without any checks, use `python start.py` as usual—the checks are fast and do not reinstall packages.
+
 On Linux/macOS, use:
 
 ```bash

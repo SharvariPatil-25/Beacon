@@ -19,6 +19,7 @@ npm-debug.log*
 pipeline/.env
 *.env.local
 .beacon-setup-complete
+.beacon-python-deps-installed
 
 # Large Model Weights (Keep local or download via scripts)
 models/cuad/legalbert_final/
