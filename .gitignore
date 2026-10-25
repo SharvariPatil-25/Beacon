@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+whisper_env/
+*.egg-info/
+
+# Node & Frontend
+frontend/node_modules/
+node_modules/
+npm-debug.log*
+
+# Environment and Credentials
+.env
+pipeline/.env
+*.env.local
+.beacon-setup-complete
+
+# Large Model Weights (Keep local or download via scripts)
+models/cuad/legalbert_final/
+models/cuad/clause_embeddings.npy
+models/cuad/category_classifier/
+models/beacon_flan_t5_v2_1_refined_lora/
+
+# Pipeline generated outputs
+data/output/
+pipeline/output/
+data/*.log
+*.wav
+*.mp4
+
+# OS Files
+.DS_Store
+Thumbs.db

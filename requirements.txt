@@ -1,0 +1,26 @@
+# BEACON Legal Meeting Intelligence Platform - Unified Requirements
+
+# Backend API & Server
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+requests>=2.32.0
+imageio-ffmpeg>=0.6.0
+
+# Speech Pipeline
+faster-whisper>=1.0.2
+av<19
+pyannote.audio>=3.1.1
+
+# Machine Learning & NLP
+torch>=2.2.0
+transformers>=4.41.0
+sentence-transformers>=2.7.0
+peft>=0.11.1
+numpy>=1.26.0
+spacy>=3.7.0
+
+# Evaluation & Metrics
+scikit-learn>=1.4.0
+tqdm>=4.66.0

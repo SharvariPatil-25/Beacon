@@ -1,0 +1,23 @@
+{
+  "name": "beacon-unified",
+  "version": "2.1.0",
+  "description": "BEACON — Unified AI Legal Meeting Intelligence Platform",
+  "scripts": {
+    "build": "cd frontend && node build.mjs && cd .. && node -e \"require('node:fs').copyFileSync('frontend/dist/index.html','dist/beacon-standalone.html')\"",
+    "dev": "cd frontend && node build.mjs --serve",
+    "start": "python start.py",
+    "test:compliance": "python compliance/compliance_engine.py",
+    "test:pipeline": "python -c \"from pipeline.pipeline_runner import run_pipeline; print(run_pipeline(transcript_text='[0.0 - 5.0] We should terminate the contract tomorrow.'))\""
+  },
+  "keywords": [
+    "legal",
+    "meeting-intelligence",
+    "transcription",
+    "diarization",
+    "compliance",
+    "cuad",
+    "react"
+  ],
+  "author": "BEACON Team",
+  "license": "UNLICENSED"
+}
