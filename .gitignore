@@ -11,6 +11,7 @@ whisper_env/
 
 # Node & Frontend
 frontend/node_modules/
+frontend/dist/
 node_modules/
 npm-debug.log*
 
