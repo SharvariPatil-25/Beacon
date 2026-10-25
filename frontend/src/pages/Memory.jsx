@@ -17,16 +17,14 @@ export default function Memory() {
     Promise.all([fetchTimeline(), fetchMeetings()]).then(([memory, history]) => {
       setTimeline(Array.isArray(memory) ? memory : [])
       setMeetings(Array.isArray(history) ? history : [])
-      if (memory?.[0]?.id) setSel(memory[0].meeting_id || memory[0].id)
-      if (memory?.[1]?.id) setCompareSel(memory[1].meeting_id || memory[1].id)
     })
   }, [])
   useEffect(() => {
     if (q.trim()) checkMemoryConflict(q.trim()).then(setConflict)
   }, [q])
   const items = timeline.filter((t) => [t.title, t.decision, t.detail].filter(Boolean).join(' ').toLowerCase().includes(q.toLowerCase()))
-  const selectedMeeting = meetings.find(m => m.id === sel) || meetings[0]
-  const compareMeeting = meetings.find(m => m.id === compareSel) || meetings.find(m => m.id !== selectedMeeting?.id)
+  const selectedMeeting = meetings.find(m => m.id === sel) || null
+  const compareMeeting = meetings.find(m => m.id === compareSel) || null
   const selected = timeline.find((t) => t.meeting_id === selectedMeeting?.id) || timeline.find((t) => t.id === sel)
   const current = timeline.find((t) => t.meeting_id === selectedMeeting?.id) || selected
   const comparison = timeline.find((t) => t.meeting_id === compareMeeting?.id)
@@ -58,22 +56,32 @@ export default function Memory() {
 
       <div className="grid cols-main mt16" style={{ alignItems: 'start' }}>
         <div>
-          <div className="row g8 wrap mb16">
-            <select className="input" value={selectedMeeting?.id || ''} onChange={e => setSel(e.target.value)}>
-              <option value="" disabled>Select current meeting</option>
-              {meetings.map(m => <option key={m.id} value={m.id}>{m.title} · {m.date}</option>)}
-            </select>
-            <select className="input" value={compareMeeting?.id || ''} onChange={e => setCompareSel(e.target.value)}>
-              <option value="" disabled>Select meeting to compare</option>
-              {meetings.filter(m => m.id !== selectedMeeting?.id).map(m => <option key={m.id} value={m.id}>{m.title} · {m.date}</option>)}
-            </select>
+          <div className="card pad mb16" style={{ background: 'var(--ivory-100)' }}>
+            <p className="small" style={{ fontWeight: 600 }}>Compare meetings</p>
+            <p className="xs muted mt4">
+              {compareMeeting
+                ? `Comparing ${selectedMeeting?.title || 'current meeting'} with ${compareMeeting.title}. Click another meeting to change the comparison.`
+                : 'Click one meeting to select it, then click a second meeting to compare decisions and conflicts.'}
+            </p>
+            <div className="row g8 wrap mt8">
+              {selectedMeeting && <span className="chip">Current: {selectedMeeting.title}</span>}
+              {compareMeeting && <span className="chip">Compare: {compareMeeting.title}</span>}
+            </div>
           </div>
           <h2 className="serif mb16" style={{ fontSize: 20 }}>Meeting timeline</h2>
           {items.length ? (
             <div className="tl">
               {items.map((t) => (
-                <div key={t.id} className={`tl-item ${sel === t.id ? 'on' : ''}`} onClick={() => setSel(t.id)} role="button" tabIndex={0}
-                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSel(t.id)}>
+                <div key={t.id} className={`tl-item ${selectedMeeting?.id === t.meeting_id || sel === t.id ? 'on' : ''}`} onClick={() => {
+                  if (!selectedMeeting || selectedMeeting.id === t.meeting_id) setSel(t.meeting_id || t.id)
+                  else setCompareSel(t.meeting_id || t.id)
+                }} role="button" tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      if (!selectedMeeting || selectedMeeting.id === t.meeting_id) setSel(t.meeting_id || t.id)
+                      else setCompareSel(t.meeting_id || t.id)
+                    }
+                  }}>
                   <span className="tl-node"><i /></span>
                   <div className="card pad hover">
                     <div className="row between wrap g8">
@@ -83,7 +91,7 @@ export default function Memory() {
                     <h3 className="serif" style={{ fontSize: 19, marginTop: 6 }}>{t.title}</h3>
                     <p className="field-l">Key decision</p>
                     <p className="small" style={{ fontWeight: 600 }}>{t.decision}</p>
-                    {sel === t.id && <p className="quote small mt12">“{t.detail || 'No discussion detail recorded.'}”</p>}
+                    {(selectedMeeting?.id === t.meeting_id || sel === t.id) && <p className="quote small mt12">“{t.detail || 'No discussion detail recorded.'}”</p>}
                   </div>
                 </div>
               ))}
